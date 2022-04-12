@@ -13,6 +13,7 @@
     "lint": "eslint --fix \"src/**/*.ts\" && prettier --write \"src/**/*.ts\"",
     "lint:check": "eslint \"src/**/*.ts\" && prettier --check \"src/**/*.ts\"",
     "check:types": "tsc --project tsconfig.test.json",
+    "test": "npm run test:unit",
     "test:unit": "jest --verbose -config=jest.config.ts "
   },
   "keywords": [
@@ -71,6 +72,7 @@
     "@types/koa-static": "^4.0.2",
     "@types/node-fetch": "^2.6.1",
     "@types/request-stats": "^3.0.0",
+    "@types/supertest": "^2.0.12",
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
@@ -83,6 +85,7 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "jest": "^27.5.1",
     "prettier": "^2.6.2",
+    "supertest": "^6.2.2",
     "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",
     "typescript": "~4.5.4"

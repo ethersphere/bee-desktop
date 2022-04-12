@@ -2,6 +2,7 @@ import Router from '@koa/router'
 import Koa from 'koa'
 import koaBodyparser from 'koa-bodyparser'
 import serve from 'koa-static'
+import type { Server } from 'http'
 import { getApiKey } from './api-key'
 import { writeConfigYaml, readConfigYaml } from './config-yaml'
 import { createInitialTransaction, createConfigFileAndAddress, runLauncher } from './launcher'
@@ -12,7 +13,7 @@ import { getStatus } from './status'
 import { rebuildElectronTray } from './electron'
 import { subscribeLogServerRequests } from './logger'
 
-export function runServer() {
+export function createApp(): Koa {
   const app = new Koa()
   app.use(serve(resolvePath('static')))
   app.use(async (context, next) => {
@@ -70,6 +71,14 @@ export function runServer() {
   })
   app.use(router.routes())
   app.use(router.allowedMethods())
+
+  return app
+}
+
+export function runServer(): Server {
+  const app = createApp()
   const server = app.listen(port.value)
   subscribeLogServerRequests(server)
+
+  return server
 }
