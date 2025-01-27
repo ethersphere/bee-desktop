@@ -15,18 +15,23 @@ export function getStatus() {
     assetsReady: isBeeAssetReady(),
   }
 
-  if (!checkPath('config.yaml') || !checkPath('data-dir')) {
+  if (!checkPath('config.yaml')) {
     return status
   }
 
   status.config = readConfigYaml()
-  status.address = readEthereumAddress()
+
+  if (!checkPath(status.config['data-dir'])) {
+    return status
+  }
+
+  status.address = readEthereumAddress(status.config['data-dir'])
 
   return status
 }
 
-function readEthereumAddress() {
-  const path = getPath(join('data-dir', 'keys', 'swarm.key'))
+function readEthereumAddress(dataDir = 'data-dir') {
+  const path = getPath(join(dataDir, 'keys', 'swarm.key'))
   const swarmKeyFile = readFileSync(path, 'utf-8')
   const v3 = JSON.parse(swarmKeyFile)
 
